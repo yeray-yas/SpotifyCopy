@@ -5,16 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.yerayyas.cursofirebaselite.CursoFirebaseLiteApp.Companion.context
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.yerayyas.cursofirebaselite.data.Repository
 import com.yerayyas.cursofirebaselite.domain.usecases.CanAccessToAppUseCase
 import com.yerayyas.cursofirebaselite.presentation.model.Artist
 import com.yerayyas.cursofirebaselite.presentation.model.Player
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +26,21 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HomeViewModel() : ViewModel() {
-    private val repository = Repository(context)
-    private val canAccessToAppUseCase = CanAccessToAppUseCase(repository)
-    private val realtimeDatabase = Firebase.database
-    private val db: FirebaseFirestore = Firebase.firestore
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+ /*   val realtimeDatabase: FirebaseDatabase,
+    val db: FirebaseFirestore,
+    val canAccessToAppUseCase: CanAccessToAppUseCase*/
+) : ViewModel() {
+
+     private val remoteConfig = FirebaseRemoteConfig.getInstance()
+     private val repository = Repository(remoteConfig)
+     private val canAccessToAppUseCase = CanAccessToAppUseCase(repository)
+     private val realtimeDatabase = Firebase.database
+     private val db: FirebaseFirestore = Firebase.firestore
 
     private val _artist = MutableStateFlow<List<Artist>>(emptyList())
     val artist: StateFlow<List<Artist>> = _artist
@@ -41,6 +52,11 @@ class HomeViewModel() : ViewModel() {
     val blockVersion: StateFlow<Boolean> = _blockVersion
 
     init {
+        // Log para verificar si las dependencias están inyectadas
+        Log.i("HomeViewModel", "ViewModel creado")
+        Log.i("HomeViewModel", "canAccessToAppUseCase es nulo: ${canAccessToAppUseCase == null}")
+        Log.i("HomeViewModel", "realtimeDatabase es nulo: ${realtimeDatabase == null}")
+        Log.i("HomeViewModel", "db es nulo: ${db == null}")
         checkUserVersion()
         getArtists()
         getPlayer()

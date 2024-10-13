@@ -1,6 +1,5 @@
 package com.yerayyas.cursofirebaselite.data
 
-import android.content.Context
 import android.content.pm.PackageManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -8,17 +7,14 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.yerayyas.cursofirebaselite.CursoFirebaseLiteApp.Companion.context
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class Repository(private val context: Context) {
+class Repository @Inject constructor(
+    private val remoteConfig: FirebaseRemoteConfig
+) {
 
     companion object {
         const val MIN_VERSION = "min_version"
-        const val ONE_HOUR_IN_SECONDS = 3600L
-    }
-
-    private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig.apply {
-        setConfigSettingsAsync(remoteConfigSettings { minimumFetchIntervalInSeconds = ONE_HOUR_IN_SECONDS })
-        fetchAndActivate()
     }
 
     suspend fun getMinAllowedVersion(): List<Int> {

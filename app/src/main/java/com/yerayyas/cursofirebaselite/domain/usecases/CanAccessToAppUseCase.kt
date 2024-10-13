@@ -1,8 +1,11 @@
 package com.yerayyas.cursofirebaselite.domain.usecases
 
 import com.yerayyas.cursofirebaselite.data.Repository
+import javax.inject.Inject
 
-class CanAccessToAppUseCase(private val repository: Repository) {
+class CanAccessToAppUseCase @Inject constructor(
+    private val repository: Repository
+) {
 
     suspend operator fun invoke(): Boolean {
         val currentVersion = repository.getCurrentVersion()
