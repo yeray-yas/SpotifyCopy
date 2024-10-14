@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.yerayyas.cursofirebaselite.CursoFirebaseLiteApp.Companion.context
 import com.yerayyas.cursofirebaselite.data.Repository
 import com.yerayyas.cursofirebaselite.presentation.auth.AuthViewModel
@@ -42,7 +43,7 @@ import com.yerayyas.cursofirebaselite.ui.theme.Black
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = HomeViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     authViewModel: AuthViewModel,
     navigateToLogin: () -> Unit
 ) {
