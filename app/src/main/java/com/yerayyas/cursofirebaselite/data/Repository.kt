@@ -6,10 +6,14 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
-import com.yerayyas.cursofirebaselite.CursoFirebaseLiteApp.Companion.context
+import com.yerayyas.cursofirebaselite.CursoFirebaseLiteApp
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class Repository(private val context: Context) {
+class Repository {
+
+    private val context= CursoFirebaseLiteApp.context
 
     companion object {
         const val MIN_VERSION = "min_version"

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,11 +29,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
-    private val repository = Repository(context)
+class HomeViewModel @Inject constructor(
+
+) : ViewModel() {
+    private val repository = Repository()
     private val canAccessToAppUseCase = CanAccessToAppUseCase(repository)
-    private val realtimeDatabase = Firebase.database
     private val db: FirebaseFirestore = Firebase.firestore
+    private val realtimeDatabase = Firebase.database
 
     private val _artist = MutableStateFlow<List<Artist>>(emptyList())
     val artist: StateFlow<List<Artist>> = _artist
