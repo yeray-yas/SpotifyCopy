@@ -18,7 +18,9 @@ import com.google.firebase.ktx.Firebase
 import com.yerayyas.cursofirebaselite.presentation.auth.AuthViewModel
 import com.yerayyas.cursofirebaselite.presentation.navigation.NavigationWrapper
 import com.yerayyas.cursofirebaselite.ui.theme.CursoFirebaseLiteTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
     private val authViewModel: AuthViewModel by viewModels()

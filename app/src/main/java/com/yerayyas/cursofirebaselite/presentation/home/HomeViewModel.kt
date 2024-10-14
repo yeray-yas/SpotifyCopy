@@ -15,6 +15,7 @@ import com.yerayyas.cursofirebaselite.data.Repository
 import com.yerayyas.cursofirebaselite.domain.usecases.CanAccessToAppUseCase
 import com.yerayyas.cursofirebaselite.presentation.model.Artist
 import com.yerayyas.cursofirebaselite.presentation.model.Player
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -24,8 +25,10 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HomeViewModel() : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor() : ViewModel() {
     private val repository = Repository(context)
     private val canAccessToAppUseCase = CanAccessToAppUseCase(repository)
     private val realtimeDatabase = Firebase.database
